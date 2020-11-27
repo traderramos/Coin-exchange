@@ -7,7 +7,6 @@ const Td = styled.td`
     width: 25vh;
 `;
 
-
 export default class coin extends Component {
 constructor(props) {
   super(props);
