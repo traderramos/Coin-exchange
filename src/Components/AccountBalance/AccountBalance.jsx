@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 const Section = styled.section`
   font-size: 2 rem;
-  text-align: right;
-  padding: 1.5rem 0 1.5rem 5rem;
+  text-align: center;
+  padding: 1.4rem 0 1.5rem 5rem;
 `;
 
 export default class AccountBalance extends Component {
