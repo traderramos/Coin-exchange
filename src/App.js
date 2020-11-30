@@ -1,8 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Coin from './Components/Coin/coin';
+import CoinList from './Components/CoinList/CoinList';
 import AccountBalance from './Components/AccountBalance/AccountBalance';
+import ExchangeHeader from './Components/ExchangeHeader/ExchangeHeader';
+import styled from 'styled-components';
+
+const Div= styled.div`
+    text-align: center;
+    background-color:rgb(20,56,97);
+    color:#cccc;
+`;
+
 
 
 class App extends React.Component {
@@ -14,12 +21,12 @@ class App extends React.Component {
          {
           name: 'Bitcoin',
           ticker:'BTC',
-          Price: 9999.99
+          price: 9999.99
          },
          {
           name: 'Ethereum',
           ticker:'ETH',
-          price: 299.99
+          price: 29.99
          },
          {
           name: 'Tether',
@@ -38,38 +45,33 @@ class App extends React.Component {
         },     
       ]
     }
+   this.handleRefresh = this.handleRefresh.bind(this);
   }
     
+  handleRefresh(valueChangeTicker) {
+   const newCoinData = this.state.coinData.map(function({ticker,name,price}) {
+    let newPrice = price;
+    if( valueChangeTicker === ticker) {
+    const randomPercentage = 0.995 + Math.random() * 0.01;
+    newPrice = newPrice * randomPercentage;
+   }   
+    return {
+      ticker,
+      name,
+      price: newPrice
+   }
+  });
   
+   this.setState({coinData: newCoinData});
+  }
+
     render() {
       return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="React logo" className="App-logo"/>
-       <h1 className="App-title">
-          Coin Exchange
-        </h1>              
-      </header>
+    <Div className="App">
+      < ExchangeHeader />
       <AccountBalance amount={this.state.balance} />
-       <table className="coin-table">
-        <thead>
-         <tr>
-           <th>Name</th> 
-           <th>Ticker</th>
-           <th>Price</th>
-         </tr>   
-      </thead> 
-       <tbody>
-         {
-           this.state.coinData.map(({ name,ticker,price}) =>
-             <Coin key={ticker} name={name} ticker={ticker} price={price}/>
-           )
-         }
-        
-
-       </tbody>
-      </table> 
-    </div>
+      <CoinList coinData={this.state.coinData} handleRefresh={this.handleRefresh} />
+    </Div>
   );
 }
 }
